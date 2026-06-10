@@ -6,7 +6,7 @@ import type {
   NewsSource,
 } from '../types/industryNews';
 
-const API_BASE = '/api/obgm';
+const API_BASE = import.meta.env.DEV ? '/api/obgm' : 'https://api.obgm.com';
 const FILE_BASE = 'https://api.obgm.com/file/';
 
 const LANG_MAP: Record<'en' | 'zh', NewsLangKey> = {

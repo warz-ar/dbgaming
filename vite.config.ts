@@ -17,6 +17,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  // GitHub Pages 项目站点部署在 /dbgaming/ 子路径
+  base: process.env.GITHUB_PAGES ? '/dbgaming/' : '/',
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if

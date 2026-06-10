@@ -11,7 +11,8 @@ import { IndustryNewsPage } from './pages/IndustryNewsPage';
 import { IndustryNewsDetailPage } from './pages/IndustryNewsDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
   {
     path: '/',
     Component: RootLayout,
@@ -28,4 +29,6 @@ export const router = createBrowserRouter([
       { path: '*', Component: NotFoundPage },
     ],
   },
-]);
+  ],
+  { basename: import.meta.env.BASE_URL.replace(/\/$/, '') || undefined },
+);
