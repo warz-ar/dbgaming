@@ -1,0 +1,7 @@
+*.md
+*.tsv
+*.csv
+*.pdf
+*.pptx
+*.py
+node_modules
