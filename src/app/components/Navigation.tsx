@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router';
 import { ArrowUpRight, ChevronDown, Globe, Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { navigationItems, type NavItem } from '../config/navigation';
+import { navigationItems, type NavGroupCard, type NavItem, type NavProductCard } from '../config/navigation';
 
 function NavLink({
   href,
@@ -29,6 +29,156 @@ function NavLink({
     <Link to={href} className={className} onClick={onClick}>
       {children}
     </Link>
+  );
+}
+
+function GroupCard({
+  card,
+  t,
+  onClose,
+}: {
+  card: NavGroupCard;
+  t: (key: string) => string;
+  onClose: () => void;
+}) {
+  const header = (
+    <div className="p-5 pb-4">
+      <div className="flex items-start justify-between gap-3 mb-2">
+        <p className="font-semibold text-sm uppercase tracking-wide">{t(card.key)}</p>
+        <ArrowUpRight size={16} className="shrink-0 text-foreground/30 mt-0.5" />
+      </div>
+      <p className="text-xs text-foreground/60 leading-relaxed">{t(`${card.key}.desc`)}</p>
+    </div>
+  );
+
+  if (card.links?.length) {
+    return (
+      <div className="rounded-xl bg-card border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all">
+        {header}
+        {card.links.map((link) => (
+          <NavLink
+            key={link.key}
+            href={link.href}
+            external={link.external}
+            onClick={onClose}
+            className="block px-5 py-3.5 text-sm font-semibold border-t border-border hover:bg-muted/60 transition-colors"
+          >
+            {t(link.key)}
+          </NavLink>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <NavLink
+      href={card.href || '#'}
+      external={card.external}
+      onClick={onClose}
+      className="block rounded-xl bg-card border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all"
+    >
+      {header}
+    </NavLink>
+  );
+}
+
+function GroupCardsMenuPanel({
+  item,
+  t,
+  onClose,
+}: {
+  item: NavItem;
+  t: (key: string) => string;
+  onClose: () => void;
+}) {
+  if (!item.groupCards?.length) return null;
+
+  const gridColsClass =
+    item.gridColumns === 4
+      ? 'sm:grid-cols-2 lg:grid-cols-4'
+      : item.gridColumns === 2
+        ? 'grid-cols-2'
+        : 'sm:grid-cols-2 lg:grid-cols-3';
+
+  return (
+    <div className="bg-muted/95 backdrop-blur-md border-b border-border shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className={`grid ${gridColsClass} gap-4`}>
+          {item.groupCards.map((card) => (
+            <GroupCard key={card.key} card={card} t={t} onClose={onClose} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProductCard({
+  card,
+  t,
+  onClose,
+}: {
+  card: NavProductCard;
+  t: (key: string) => string;
+  onClose: () => void;
+}) {
+  return (
+    <div className="rounded-xl bg-card border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all">
+      <div className="p-5 pb-4">
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <p className="font-semibold text-sm uppercase tracking-wide">{t(card.key)}</p>
+          <ArrowUpRight size={16} className="shrink-0 text-foreground/30 mt-0.5" />
+        </div>
+        <p className="text-xs text-foreground/60 leading-relaxed">{t(`${card.key}.desc`)}</p>
+      </div>
+      <NavLink
+        href={card.introHref}
+        external={card.external}
+        onClick={onClose}
+        className="block px-5 py-3.5 text-sm font-semibold border-t border-border hover:bg-muted/60 transition-colors"
+      >
+        {t('nav.game.productIntro')}
+      </NavLink>
+      <NavLink
+        href={card.demoHref}
+        external={card.external}
+        onClick={onClose}
+        className="block px-5 py-3.5 text-sm font-semibold border-t border-border hover:bg-muted/60 transition-colors"
+      >
+        {t('nav.game.productDemo')}
+      </NavLink>
+    </div>
+  );
+}
+
+function ProductCardsMenuPanel({
+  item,
+  t,
+  onClose,
+}: {
+  item: NavItem;
+  t: (key: string) => string;
+  onClose: () => void;
+}) {
+  if (!item.productCards?.length) return null;
+
+  const gridColsClass =
+    item.gridColumns === 4
+      ? 'sm:grid-cols-2 lg:grid-cols-4'
+      : item.gridColumns === 2
+        ? 'grid-cols-2'
+        : 'sm:grid-cols-2 lg:grid-cols-3';
+
+  return (
+    <div className="bg-muted/95 backdrop-blur-md border-b border-border shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className={`grid ${gridColsClass} gap-4`}>
+          {item.productCards.map((card) => (
+            <ProductCard key={card.key} card={card} t={t} onClose={onClose} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -67,7 +217,11 @@ function MegaMenuPanel({
   );
 
   const gridColsClass =
-    item.gridColumns === 2 ? 'grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3';
+    item.gridColumns === 4
+      ? 'sm:grid-cols-2 lg:grid-cols-4'
+      : item.gridColumns === 2
+        ? 'grid-cols-2'
+        : 'sm:grid-cols-2 lg:grid-cols-3';
 
   const gridPanel = (
     <div className={`flex-1 grid ${gridColsClass} gap-4`}>
@@ -194,7 +348,7 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navigationItems.map((item) =>
-              item.children ? (
+              item.children || item.productCards || item.groupCards ? (
                 <div
                   key={item.key}
                   className="relative"
@@ -260,7 +414,7 @@ export function Navigation() {
           <div className="lg:hidden py-4 border-t border-border max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="flex flex-col gap-1">
               {navigationItems.map((item) =>
-                item.children ? (
+                item.children || item.productCards || item.groupCards ? (
                   <div key={item.key}>
                     <button
                       type="button"
@@ -275,7 +429,67 @@ export function Navigation() {
                         className={`transition-transform ${expandedMobile === item.key ? 'rotate-180' : ''}`}
                       />
                     </button>
-                    {expandedMobile === item.key && (
+                    {expandedMobile === item.key && item.groupCards && (
+                      <div className="ml-4 mb-2 flex flex-col gap-2 border-l border-border pl-3">
+                        {item.groupCards.map((card) => (
+                          <div key={card.key} className="px-3 py-2">
+                            <p className="text-sm font-semibold text-foreground/90 mb-1">{t(card.key)}</p>
+                            {card.links ? (
+                              <div className="flex flex-col gap-0.5">
+                                {card.links.map((link) => (
+                                  <NavLink
+                                    key={link.key}
+                                    href={link.href}
+                                    external={link.external}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="px-2 py-1.5 text-xs text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
+                                  >
+                                    {t(link.key)}
+                                  </NavLink>
+                                ))}
+                              </div>
+                            ) : (
+                              <NavLink
+                                href={card.href || '#'}
+                                external={card.external}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="px-2 py-1.5 text-xs text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
+                              >
+                                {t(card.key)}
+                              </NavLink>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {expandedMobile === item.key && item.productCards && (
+                      <div className="ml-4 mb-2 flex flex-col gap-2 border-l border-border pl-3">
+                        {item.productCards.map((card) => (
+                          <div key={card.key} className="px-3 py-2">
+                            <p className="text-sm font-semibold text-foreground/90 mb-1">{t(card.key)}</p>
+                            <div className="flex flex-col gap-0.5">
+                              <NavLink
+                                href={card.introHref}
+                                external={card.external}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="px-2 py-1.5 text-xs text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
+                              >
+                                {t('nav.game.productIntro')}
+                              </NavLink>
+                              <NavLink
+                                href={card.demoHref}
+                                external={card.external}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="px-2 py-1.5 text-xs text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
+                              >
+                                {t('nav.game.productDemo')}
+                              </NavLink>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {expandedMobile === item.key && item.children && (
                       <div className="ml-4 mb-2 flex flex-col gap-1 border-l border-border pl-3">
                         {item.children.map((child) => (
                           <NavLink
@@ -322,16 +536,30 @@ export function Navigation() {
       </div>
 
       {/* Desktop Mega Menu — full-width panel below header */}
-      {activeItem?.children && (
+      {activeItem && (activeItem.children || activeItem.productCards || activeItem.groupCards) && (
         <div
           className="hidden lg:block absolute left-0 right-0 top-full"
           onMouseEnter={() => openMenu(activeItem.key)}
         >
-          <MegaMenuPanel
-            item={activeItem}
-            t={t}
-            onClose={() => setActiveMenu(null)}
-          />
+          {activeItem.menuLayout === 'product-cards' ? (
+            <ProductCardsMenuPanel
+              item={activeItem}
+              t={t}
+              onClose={() => setActiveMenu(null)}
+            />
+          ) : activeItem.menuLayout === 'grouped-cards' ? (
+            <GroupCardsMenuPanel
+              item={activeItem}
+              t={t}
+              onClose={() => setActiveMenu(null)}
+            />
+          ) : (
+            <MegaMenuPanel
+              item={activeItem}
+              t={t}
+              onClose={() => setActiveMenu(null)}
+            />
+          )}
         </div>
       )}
     </nav>
