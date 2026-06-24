@@ -7,6 +7,12 @@ import { navigationItems, type NavGroupCard, type NavItem, type NavProductCard }
 const LOGO_WHITE_URL = 'https://dbgaming.com/img/db_logo_white_1.png';
 const LOGO_DEFAULT_URL = 'https://dbgaming.com/img/db_logo_1.png';
 
+function megaMenuPanelClass(glassDark: boolean) {
+  return glassDark
+    ? 'bg-black/40 backdrop-blur-2xl border-b border-white/10 shadow-2xl'
+    : 'bg-background/80 backdrop-blur-xl border-b border-border/60 shadow-lg';
+}
+
 function NavLink({
   href,
   external,
@@ -39,24 +45,36 @@ function GroupCard({
   card,
   t,
   onClose,
+  glassDark,
 }: {
   card: NavGroupCard;
   t: (key: string) => string;
   onClose: () => void;
+  glassDark: boolean;
 }) {
+  const cardClass = glassDark
+    ? 'rounded-xl bg-white/10 backdrop-blur-md border border-white/15 overflow-hidden hover:border-white/30 hover:bg-white/15 transition-all'
+    : 'rounded-xl bg-card/90 backdrop-blur-sm border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all';
+  const titleClass = glassDark ? 'text-white' : '';
+  const descClass = glassDark ? 'text-white/65' : 'text-foreground/60';
+  const iconClass = glassDark ? 'text-white/40' : 'text-foreground/30';
+  const linkClass = glassDark
+    ? 'block px-5 py-3.5 text-sm font-semibold text-white border-t border-white/15 hover:bg-white/10 transition-colors'
+    : 'block px-5 py-3.5 text-sm font-semibold border-t border-border hover:bg-muted/60 transition-colors';
+
   const header = (
     <div className="p-5 pb-4">
       <div className="flex items-start justify-between gap-3 mb-2">
-        <p className="font-semibold text-sm uppercase tracking-wide">{t(card.key)}</p>
-        <ArrowUpRight size={16} className="shrink-0 text-foreground/30 mt-0.5" />
+        <p className={`font-semibold text-sm uppercase tracking-wide ${titleClass}`}>{t(card.key)}</p>
+        <ArrowUpRight size={16} className={`shrink-0 mt-0.5 ${iconClass}`} />
       </div>
-      <p className="text-xs text-foreground/60 leading-relaxed">{t(`${card.key}.desc`)}</p>
+      <p className={`text-xs leading-relaxed ${descClass}`}>{t(`${card.key}.desc`)}</p>
     </div>
   );
 
   if (card.links?.length) {
     return (
-      <div className="rounded-xl bg-card border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all">
+      <div className={cardClass}>
         {header}
         {card.links.map((link) => (
           <NavLink
@@ -64,7 +82,7 @@ function GroupCard({
             href={link.href}
             external={link.external}
             onClick={onClose}
-            className="block px-5 py-3.5 text-sm font-semibold border-t border-border hover:bg-muted/60 transition-colors"
+            className={linkClass}
           >
             {t(link.key)}
           </NavLink>
@@ -78,7 +96,7 @@ function GroupCard({
       href={card.href || '#'}
       external={card.external}
       onClick={onClose}
-      className="block rounded-xl bg-card border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all"
+      className={`block ${cardClass}`}
     >
       {header}
     </NavLink>
@@ -89,10 +107,12 @@ function GroupCardsMenuPanel({
   item,
   t,
   onClose,
+  glassDark,
 }: {
   item: NavItem;
   t: (key: string) => string;
   onClose: () => void;
+  glassDark: boolean;
 }) {
   if (!item.groupCards?.length) return null;
 
@@ -104,11 +124,11 @@ function GroupCardsMenuPanel({
         : 'sm:grid-cols-2 lg:grid-cols-3';
 
   return (
-    <div className="bg-muted/95 backdrop-blur-md border-b border-border shadow-lg">
+    <div className={megaMenuPanelClass(glassDark)}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className={`grid ${gridColsClass} gap-4`}>
           {item.groupCards.map((card) => (
-            <GroupCard key={card.key} card={card} t={t} onClose={onClose} />
+            <GroupCard key={card.key} card={card} t={t} onClose={onClose} glassDark={glassDark} />
           ))}
         </div>
       </div>
@@ -120,25 +140,37 @@ function ProductCard({
   card,
   t,
   onClose,
+  glassDark,
 }: {
   card: NavProductCard;
   t: (key: string) => string;
   onClose: () => void;
+  glassDark: boolean;
 }) {
+  const cardClass = glassDark
+    ? 'flex h-full flex-col rounded-xl bg-white/10 backdrop-blur-md border border-white/15 overflow-hidden hover:border-white/30 hover:bg-white/15 transition-all'
+    : 'flex h-full flex-col rounded-xl bg-card/90 backdrop-blur-sm border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all';
+  const titleClass = glassDark ? 'text-white' : '';
+  const descClass = glassDark ? 'text-white/65' : 'text-foreground/60';
+  const iconClass = glassDark ? 'text-white/40' : 'text-foreground/30';
+  const demoClass = glassDark
+    ? 'flex h-11 w-full items-center justify-center border-t border-white/15 text-xs font-medium text-secondary transition-colors hover:bg-white/10 hover:text-secondary/80'
+    : 'flex h-11 w-full items-center justify-center border-t border-border text-xs font-medium text-secondary transition-colors hover:bg-muted/60 hover:text-secondary/80';
+
   return (
-    <div className="flex h-full flex-col rounded-xl bg-card border border-border overflow-hidden hover:border-secondary/50 hover:shadow-md transition-all">
+    <div className={cardClass}>
       <div className="flex-1 p-5 pb-4">
         <div className="flex items-start justify-between gap-3 mb-2">
-          <p className="font-semibold text-sm uppercase tracking-wide">{t(card.key)}</p>
-          <ArrowUpRight size={16} className="shrink-0 text-foreground/30 mt-0.5" />
+          <p className={`font-semibold text-sm uppercase tracking-wide ${titleClass}`}>{t(card.key)}</p>
+          <ArrowUpRight size={16} className={`shrink-0 mt-0.5 ${iconClass}`} />
         </div>
-        <p className="text-xs text-foreground/60 leading-relaxed">{t(`${card.key}.desc`)}</p>
+        <p className={`text-xs leading-relaxed ${descClass}`}>{t(`${card.key}.desc`)}</p>
       </div>
       <NavLink
         href={card.demoHref}
         external={card.external}
         onClick={onClose}
-        className="flex h-11 w-full items-center justify-center border-t border-border text-xs font-medium text-secondary transition-colors hover:bg-muted/60 hover:text-secondary/80"
+        className={demoClass}
       >
         {t('nav.game.productDemo')}
       </NavLink>
@@ -150,10 +182,12 @@ function ProductCardsMenuPanel({
   item,
   t,
   onClose,
+  glassDark,
 }: {
   item: NavItem;
   t: (key: string) => string;
   onClose: () => void;
+  glassDark: boolean;
 }) {
   if (!item.productCards?.length) return null;
 
@@ -165,11 +199,11 @@ function ProductCardsMenuPanel({
         : 'sm:grid-cols-2 lg:grid-cols-3';
 
   return (
-    <div className="bg-muted/95 backdrop-blur-md border-b border-border shadow-lg">
+    <div className={megaMenuPanelClass(glassDark)}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className={`grid ${gridColsClass} gap-4`}>
           {item.productCards.map((card) => (
-            <ProductCard key={card.key} card={card} t={t} onClose={onClose} />
+            <ProductCard key={card.key} card={card} t={t} onClose={onClose} glassDark={glassDark} />
           ))}
         </div>
       </div>
@@ -181,10 +215,12 @@ function MegaMenuPanel({
   item,
   t,
   onClose,
+  glassDark,
 }: {
   item: NavItem;
   t: (key: string) => string;
   onClose: () => void;
+  glassDark: boolean;
 }) {
   if (!item.children?.length) return null;
 
@@ -197,13 +233,17 @@ function MegaMenuPanel({
     <NavLink
       href={item.featuredHref || '#'}
       onClick={onClose}
-      className="hidden lg:flex w-72 shrink-0 flex-col justify-between rounded-2xl bg-gradient-to-br from-secondary/10 to-accent/10 border border-secondary/20 p-6 hover:border-secondary/40 hover:shadow-md transition-all"
+      className={
+        glassDark
+          ? 'hidden lg:flex w-72 shrink-0 flex-col justify-between rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-6 hover:border-white/35 hover:bg-white/15 transition-all'
+          : 'hidden lg:flex w-72 shrink-0 flex-col justify-between rounded-2xl bg-gradient-to-br from-secondary/10 to-accent/10 border border-secondary/20 p-6 hover:border-secondary/40 hover:shadow-md transition-all'
+      }
     >
       <div>
         <p className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3">
           {t(featuredTitleKey)}
         </p>
-        <p className="text-sm text-foreground/70 leading-relaxed">
+        <p className={`text-sm leading-relaxed ${glassDark ? 'text-white/75' : 'text-foreground/70'}`}>
           {t(item.featuredKey || `${item.key}.featured`)}
         </p>
       </div>
@@ -218,6 +258,10 @@ function MegaMenuPanel({
         ? 'grid-cols-2'
         : 'sm:grid-cols-2 lg:grid-cols-3';
 
+  const gridItemClass = glassDark
+    ? 'group flex items-start justify-between gap-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-5 hover:border-white/30 hover:bg-white/15 transition-all'
+    : 'group flex items-start justify-between gap-3 rounded-xl bg-card/90 backdrop-blur-sm border border-border p-5 hover:border-secondary/50 hover:shadow-md transition-all';
+
   const gridPanel = (
     <div className={`flex-1 grid ${gridColsClass} gap-4`}>
       {gridChildren.map((child) => (
@@ -226,19 +270,19 @@ function MegaMenuPanel({
                 href={child.href}
                 external={child.external}
                 onClick={onClose}
-                className="group flex items-start justify-between gap-3 rounded-xl bg-card border border-border p-5 hover:border-secondary/50 hover:shadow-md transition-all"
+                className={gridItemClass}
               >
                 <div className="min-w-0">
-                  <p className="font-semibold text-sm uppercase tracking-wide group-hover:text-secondary transition-colors">
+                  <p className={`font-semibold text-sm uppercase tracking-wide group-hover:text-secondary transition-colors ${glassDark ? 'text-white' : ''}`}>
                     {t(child.key)}
                   </p>
-                  <p className="text-xs text-foreground/60 mt-1.5 leading-relaxed">
+                  <p className={`text-xs mt-1.5 leading-relaxed ${glassDark ? 'text-white/65' : 'text-foreground/60'}`}>
                     {t(`${child.key}.desc`)}
                   </p>
                 </div>
                 <ArrowUpRight
                   size={16}
-                  className="shrink-0 text-foreground/30 group-hover:text-secondary transition-colors mt-0.5"
+                  className={`shrink-0 group-hover:text-secondary transition-colors mt-0.5 ${glassDark ? 'text-white/40' : 'text-foreground/30'}`}
                 />
               </NavLink>
       ))}
@@ -246,7 +290,7 @@ function MegaMenuPanel({
   );
 
   return (
-    <div className="bg-muted/95 backdrop-blur-md border-b border-border shadow-lg">
+    <div className={megaMenuPanelClass(glassDark)}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex gap-8">
           {item.featuredOnRight ? (
@@ -528,18 +572,21 @@ export function Navigation() {
               item={activeItem}
               t={t}
               onClose={() => setActiveMenu(null)}
+              glassDark={isTransparent}
             />
           ) : activeItem.menuLayout === 'grouped-cards' ? (
             <GroupCardsMenuPanel
               item={activeItem}
               t={t}
               onClose={() => setActiveMenu(null)}
+              glassDark={isTransparent}
             />
           ) : (
             <MegaMenuPanel
               item={activeItem}
               t={t}
               onClose={() => setActiveMenu(null)}
+              glassDark={isTransparent}
             />
           )}
         </div>
