@@ -4,6 +4,9 @@ import { ArrowUpRight, ChevronDown, Globe, Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { navigationItems, type NavGroupCard, type NavItem, type NavProductCard } from '../config/navigation';
 
+const LOGO_WHITE_URL = 'https://dbgaming.com/img/db_logo_white_1.png';
+const LOGO_DEFAULT_URL = 'https://dbgaming.com/img/db_logo_1.png';
+
 function NavLink({
   href,
   external,
@@ -273,7 +276,8 @@ export function Navigation() {
   const { language, setLanguage, t } = useLanguage();
 
   const isHome = location.pathname === '/';
-  const isTransparent = isHome && !scrolled && !mobileMenuOpen && !activeMenu;
+  const isTransparent = isHome && !scrolled && !mobileMenuOpen;
+  const useWhiteLogo = isTransparent;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -326,15 +330,11 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex-shrink-0">
-            <h2
-              className={`text-2xl font-bold transition-colors ${
-                isTransparent
-                  ? 'text-white'
-                  : 'bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent'
-              }`}
-            >
-              DB Gaming
-            </h2>
+            <img
+              src={useWhiteLogo ? LOGO_WHITE_URL : LOGO_DEFAULT_URL}
+              alt="DB Gaming"
+              className="h-9 w-auto transition-opacity duration-300"
+            />
           </Link>
 
           {/* Desktop Navigation */}

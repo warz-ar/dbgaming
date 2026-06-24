@@ -64,15 +64,6 @@ export const navigationItems: NavItem[] = [
     menuLayout: 'grouped-cards',
     gridColumns: 4,
     groupCards: [
-      { key: 'nav.agent.dbWl', href: 'https://www.dbgaming.com/DB-WL', external: true },
-      {
-        key: 'nav.agent.kmWl',
-        links: [
-          { key: 'nav.agent.kmSports', href: 'https://www.dbgaming.com/KM-Sports-WL', external: true },
-          { key: 'nav.agent.kmCpLive', href: 'https://www.dbgaming.com/KM-CP-WL-WL', external: true },
-        ],
-      },
-      { key: 'nav.agent.boya', href: '/product-demo' },
       { key: 'nav.agent.dbGameApi', href: '/solutions' },
       { key: 'nav.agent.smartApi', href: '/partnership' },
       { key: 'nav.agent.dbIntlWl', href: 'https://www.dbgaming.com/DB-WL', external: true },
