@@ -73,13 +73,12 @@ export const navigationItems: NavItem[] = [
         ],
       },
       { key: 'nav.agent.boya', href: '/product-demo' },
-      {
-        key: 'nav.agent.api',
-        links: [
-          { key: 'nav.agent.externalApi', href: '/solutions' },
-          { key: 'nav.agent.liveApiRental', href: '/partnership' },
-        ],
-      },
+      { key: 'nav.agent.dbGameApi', href: '/solutions' },
+      { key: 'nav.agent.smartApi', href: '/partnership' },
+      { key: 'nav.agent.dbIntlWl', href: 'https://www.dbgaming.com/DB-WL', external: true },
+      { key: 'nav.agent.chinaWl', href: '/solutions' },
+      { key: 'nav.agent.liveTableRental', href: '/partnership' },
+      { key: 'nav.agent.externalApi', href: '/solutions' },
     ],
   },
   {
