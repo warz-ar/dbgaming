@@ -447,8 +447,8 @@ export function Navigation() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border max-h-[calc(100vh-4rem)] overflow-y-auto">
-            <div className="flex flex-col gap-1">
+          <div className="lg:hidden py-3 border-t border-border max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain">
+            <div className="flex flex-col gap-0.5">
               {navigationItems.map((item) =>
                 item.children || item.productCards || item.groupCards ? (
                   <div key={item.key}>
@@ -457,57 +457,71 @@ export function Navigation() {
                       onClick={() =>
                         setExpandedMobile(expandedMobile === item.key ? null : item.key)
                       }
-                      className="w-full flex items-center justify-between px-4 py-3 text-left text-foreground/80 hover:text-foreground hover:bg-muted/60 rounded-lg transition-colors"
+                      className={`w-full flex items-center justify-between px-4 py-3 text-left rounded-lg transition-colors ${
+                        expandedMobile === item.key
+                          ? 'text-foreground bg-muted/50'
+                          : 'text-foreground/80 hover:text-foreground hover:bg-muted/40'
+                      }`}
                     >
                       <span className="font-medium">{t(item.key)}</span>
                       <ChevronDown
                         size={16}
-                        className={`transition-transform ${expandedMobile === item.key ? 'rotate-180' : ''}`}
+                        className={`shrink-0 transition-transform ${
+                          expandedMobile === item.key ? 'rotate-180 text-accent' : 'text-muted-foreground'
+                        }`}
                       />
                     </button>
                     {expandedMobile === item.key && item.groupCards && (
-                      <div className="ml-4 mb-2 flex flex-col gap-2 border-l border-border pl-3">
-                        {item.groupCards.map((card) => (
-                          <div key={card.key} className="px-3 py-2">
-                            <p className="text-sm font-semibold text-foreground/90 mb-1">{t(card.key)}</p>
-                            {card.links ? (
-                              <div className="flex flex-col gap-0.5">
-                                {card.links.map((link) => (
-                                  <NavLink
-                                    key={link.key}
-                                    href={link.href}
-                                    external={link.external}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="px-2 py-1.5 text-xs text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
-                                  >
-                                    {t(link.key)}
-                                  </NavLink>
-                                ))}
-                              </div>
-                            ) : (
-                              <NavLink
-                                href={card.href || '#'}
-                                external={card.external}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="px-2 py-1.5 text-xs text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
-                              >
+                      <div className="mx-3 mb-2 rounded-lg border border-border/60 bg-muted/25 overflow-hidden divide-y divide-border/50">
+                        {item.groupCards.map((card) =>
+                          card.links?.length ? (
+                            <div key={card.key}>
+                              <p className="px-3 pt-2.5 pb-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                                 {t(card.key)}
-                              </NavLink>
-                            )}
-                          </div>
-                        ))}
+                              </p>
+                              {card.links.map((link) => (
+                                <NavLink
+                                  key={link.key}
+                                  href={link.href}
+                                  external={link.external}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="flex items-center justify-between gap-3 px-3 py-2 text-sm text-foreground/80 hover:text-foreground hover:bg-muted/50 transition-colors"
+                                >
+                                  <span>{t(link.key)}</span>
+                                  <ArrowUpRight size={14} className="shrink-0 text-muted-foreground" />
+                                </NavLink>
+                              ))}
+                            </div>
+                          ) : (
+                            <NavLink
+                              key={card.key}
+                              href={card.href || '#'}
+                              external={card.external}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="flex items-center justify-between gap-3 px-3 py-2.5 text-sm text-foreground/90 hover:text-foreground hover:bg-muted/50 transition-colors"
+                            >
+                              <span className="font-medium">{t(card.key)}</span>
+                              <ArrowUpRight size={14} className="shrink-0 text-muted-foreground" />
+                            </NavLink>
+                          ),
+                        )}
                       </div>
                     )}
                     {expandedMobile === item.key && item.productCards && (
-                      <div className="ml-4 mb-2 flex flex-col gap-2 border-l border-border pl-3">
+                      <div className="mx-3 mb-2 rounded-lg border border-border/60 bg-muted/25 overflow-hidden divide-y divide-border/50">
                         {item.productCards.map((card) => (
-                          <div key={card.key} className="px-3 py-2">
-                            <p className="text-sm font-semibold text-foreground/90 mb-1">{t(card.key)}</p>
+                          <div
+                            key={card.key}
+                            className="flex items-center justify-between gap-3 px-3 py-2.5"
+                          >
+                            <span className="text-sm font-medium text-foreground/90 min-w-0 truncate">
+                              {t(card.key)}
+                            </span>
                             <NavLink
                               href={card.demoHref}
                               external={card.external}
                               onClick={() => setMobileMenuOpen(false)}
-                              className="flex h-9 w-full items-center justify-center rounded text-[11px] font-medium text-secondary transition-colors hover:bg-muted/40 hover:text-secondary/80"
+                              className="shrink-0 text-xs font-semibold text-accent hover:text-accent/80 px-2.5 py-1 rounded-md hover:bg-accent/10 transition-colors"
                             >
                               {t('nav.game.productDemo')}
                             </NavLink>
@@ -516,16 +530,17 @@ export function Navigation() {
                       </div>
                     )}
                     {expandedMobile === item.key && item.children && (
-                      <div className="ml-4 mb-2 flex flex-col gap-1 border-l border-border pl-3">
+                      <div className="mx-3 mb-2 rounded-lg border border-border/60 bg-muted/25 overflow-hidden divide-y divide-border/50">
                         {item.children.map((child) => (
                           <NavLink
                             key={child.key}
                             href={child.href}
                             external={child.external}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="px-3 py-2 text-sm text-foreground/70 hover:text-foreground hover:bg-muted/40 rounded transition-colors"
+                            className="flex items-center justify-between gap-3 px-3 py-2.5 text-sm text-foreground/80 hover:text-foreground hover:bg-muted/50 transition-colors"
                           >
-                            {t(child.key)}
+                            <span>{t(child.key)}</span>
+                            <ArrowUpRight size={14} className="shrink-0 text-muted-foreground" />
                           </NavLink>
                         ))}
                       </div>
@@ -536,26 +551,28 @@ export function Navigation() {
                     key={item.key}
                     href={item.href!}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-muted/60 rounded-lg transition-colors font-medium"
+                    className="px-4 py-3 text-foreground/80 hover:text-foreground hover:bg-muted/40 rounded-lg transition-colors font-medium"
                   >
                     {t(item.key)}
                   </NavLink>
                 ),
               )}
-              <button
-                onClick={toggleLanguage}
-                className="flex items-center justify-center gap-1.5 mx-4 mt-2 px-4 py-2 text-foreground/80 hover:text-foreground transition-colors border border-border rounded-lg hover:border-secondary/50"
-              >
-                <Globe size={16} />
-                <span className="text-sm font-medium">{language === 'en' ? '中文' : 'EN'}</span>
-              </button>
-              <Link
-                to="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mx-4 mt-2 px-6 py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition-colors text-center font-medium"
-              >
-                {t('nav.requestDemo')}
-              </Link>
+              <div className="mt-3 pt-3 border-t border-border/60 mx-3 flex flex-col gap-2">
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center justify-center gap-1.5 px-4 py-2.5 text-foreground/80 hover:text-foreground transition-colors border border-border rounded-lg hover:border-accent/40"
+                >
+                  <Globe size={16} />
+                  <span className="text-sm font-medium">{language === 'en' ? '中文' : 'EN'}</span>
+                </button>
+                <Link
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-6 py-2.5 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition-colors text-center font-medium"
+                >
+                  {t('nav.requestDemo')}
+                </Link>
+              </div>
             </div>
           </div>
         )}
