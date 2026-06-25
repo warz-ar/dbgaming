@@ -44,21 +44,7 @@ export interface NavItem {
 
 export const navigationItems: NavItem[] = [
   { key: 'nav.home', href: '/' },
-  {
-    key: 'nav.gameProducts',
-    menuLayout: 'product-cards',
-    gridColumns: 4,
-    productCards: [
-      { key: 'nav.game.pandaSports', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbLive', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbEsports', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbChess', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbLottery', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbSlots', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbHash', introHref: '/product-demo', demoHref: '/product-demo' },
-      { key: 'nav.game.dbScratch', introHref: '/product-demo', demoHref: '/product-demo' },
-    ],
-  },
+  { key: 'nav.gameProducts', href: '/product' },
   {
     key: 'nav.agentProducts',
     menuLayout: 'grouped-cards',

@@ -81,6 +81,41 @@ const translations = {
     'nav.requestDemo': 'Request Demo',
     'nav.backToHome': 'Back to Home',
 
+    // Product page (Games)
+    'product.badge': 'Game Products',
+    'product.title': 'Product Overview',
+    'product.subtitle':
+      'One integration for Asia\'s leading game portfolio — sports, live casino, esports, chess, lottery, slots, hash and scratch cards.',
+    'product.tryPlay': 'Demo',
+    'product.expandMore': 'Show more providers',
+    'product.venues': 'Partner Providers',
+    'product.ctaTitle': 'Ready to integrate?',
+    'product.ctaSubtitle': 'Contact our team for API access, rates and technical onboarding.',
+    'product.games.pandaSports': 'Panda Sports',
+    'product.games.pandaSports.desc':
+      'A global leading brand with secure, intelligent services to help partners expand internationally.',
+    'product.games.dbLive': 'DB Live Casino',
+    'product.games.dbLive.desc':
+      'Backed by DB Group, dedicated to delivering a premium live dealer experience.',
+    'product.games.dbEsports': 'DB Esports',
+    'product.games.dbEsports.desc':
+      'Top-tier esports data services with competitive odds, extensive in-play markets and fast settlement.',
+    'product.games.dbChess': 'DB Chess & Cards',
+    'product.games.dbChess.desc':
+      'VR chess platform combining Silicon Valley AI with cinematic art production.',
+    'product.games.dbLottery': 'DB Lottery',
+    'product.games.dbLottery.desc':
+      'Asia-leading lottery brand built on group technology with secure, stable operations.',
+    'product.games.dbSlots': 'DB Slots',
+    'product.games.dbSlots.desc':
+      'High-quality slot and arcade games with a global product vision.',
+    'product.games.dbHash': 'DB Hash Games',
+    'product.games.dbHash.desc':
+      'Asia\'s first blockchain gaming supplier offering easy-to-play provably fair products.',
+    'product.games.dbScratch': 'DB Scratch Cards',
+    'product.games.dbScratch.desc':
+      'Instant, fun and fair scratch card experiences for players worldwide.',
+
     // Hero Section
     'hero.badge': 'Asia\'s Largest Game API Provider',
     'hero.title': 'iGaming Made',
@@ -289,6 +324,33 @@ const translations = {
     'nav.about.careers.desc': '加入 DB Gaming 全球团队',
     'nav.requestDemo': '申请试用',
     'nav.backToHome': '返回首页',
+
+    // Product page (Games)
+    'product.badge': '游戏产品',
+    'product.title': '产品介绍',
+    'product.subtitle':
+      '一次接入熊猫体育、DB真人、DB电竞、DB棋牌、DB彩票、DB电子、DB哈希、DB刮刮乐等全线产品。',
+    'product.tryPlay': '试玩',
+    'product.expandMore': '点击展开更多',
+    'product.venues': '合作场馆',
+    'product.ctaTitle': '准备接入游戏产品？',
+    'product.ctaSubtitle': '联系商务团队获取 API 方案、费率与技术支持。',
+    'product.games.pandaSports': '熊猫体育',
+    'product.games.pandaSports.desc': '全球领先品牌，安全智能服务助力客户拓展国际市场。',
+    'product.games.dbLive': 'DB真人',
+    'product.games.dbLive.desc': '背靠DB集团，专注打造顶级真人视讯体验。',
+    'product.games.dbEsports': 'DB电竞',
+    'product.games.dbEsports.desc': '顶级电竞数据服务商，赔率高、滚球多、结算极速体验佳。',
+    'product.games.dbChess': 'DB棋牌',
+    'product.games.dbChess.desc': '全球首款虚拟现实棋牌平台，汇聚硅谷AI与影视美术团队。',
+    'product.games.dbLottery': 'DB彩票',
+    'product.games.dbLottery.desc': '承袭集团技术与设计，打造亚洲领先、安全稳定的彩票品牌。',
+    'product.games.dbSlots': 'DB电子',
+    'product.games.dbSlots.desc': '全球视野下的高品质电子游戏品牌，覆盖老虎机与街机游戏。',
+    'product.games.dbHash': 'DB哈希',
+    'product.games.dbHash.desc': '亚洲首家区块链游戏供应商，提供优质易上手的博彩产品。',
+    'product.games.dbScratch': 'DB刮刮乐',
+    'product.games.dbScratch.desc': '虚拟产品力作，创新打造即时有趣公平的体验，面向全球用户。',
 
     // Hero Section
     'hero.badge': '亚洲最大游戏API供应商',

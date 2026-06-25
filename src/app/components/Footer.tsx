@@ -26,7 +26,7 @@ export function Footer() {
             <h4 className="font-semibold mb-4">{t('footer.products')}</h4>
             <ul className="space-y-2 text-sm text-white/70">
               <li>
-                <Link to="/product-demo" className="hover:text-accent transition-colors">
+                <Link to="/product" className="hover:text-accent transition-colors">
                   {t('nav.gameProducts')}
                 </Link>
               </li>
