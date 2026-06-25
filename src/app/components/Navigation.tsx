@@ -4,8 +4,16 @@ import { ArrowUpRight, ChevronDown, Globe, Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { navigationItems, type NavGroupCard, type NavItem, type NavProductCard } from '../config/navigation';
 
-const LOGO_WHITE_URL = 'https://dbgaming.com/img/db_logo_white_1.png';
-const LOGO_DEFAULT_URL = 'https://dbgaming.com/img/db_logo_1.png';
+const LOGO_BY_LANG = {
+  zh: {
+    white: 'https://dbgaming.com/img/db_logo_white_1.png',
+    default: 'https://dbgaming.com/img/db_logo_1.png',
+  },
+  en: {
+    white: 'https://www.dbgaming.com/img/en/db_logo_white_1.png',
+    default: 'https://www.dbgaming.com/img/en/db_logo_1.png',
+  },
+} as const;
 
 function megaMenuPanelClass(glassDark: boolean) {
   return glassDark
@@ -322,6 +330,7 @@ export function Navigation() {
   const isHome = location.pathname === '/';
   const isTransparent = isHome && !scrolled && !mobileMenuOpen;
   const useWhiteLogo = isTransparent;
+  const logoUrls = LOGO_BY_LANG[language];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -375,7 +384,7 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex-shrink-0">
             <img
-              src={useWhiteLogo ? LOGO_WHITE_URL : LOGO_DEFAULT_URL}
+              src={useWhiteLogo ? logoUrls.white : logoUrls.default}
               alt="DB Gaming"
               className="h-9 w-auto transition-opacity duration-300"
             />
